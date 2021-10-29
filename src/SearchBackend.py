@@ -1,19 +1,18 @@
-from flask import Flask
-from flask_restful import Api, Resource
+import json
+from flask import Flask, request
 import time
-from flask_cors import CORS
-
 app = Flask(__name__)
-api = Api(app)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-class HelloWorld(Resource):
-    def post(self, data):
-        print(data)
-        return {data}
-
-
-api.add_resource(HelloWorld, '/')
+@app.route('/search', methods=['POST'])
+def index():
+    data = request.get_data()
+    jsondata = json.loads(data)
+    a = str(json.dumps(jsondata["data"]))
+    print(a)
+    if a == '"111"':
+        print('sleep')
+        time.sleep(5)
+    return a
 
 if __name__ == '__main__':
     app.run(debug=True)
